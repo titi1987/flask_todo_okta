@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>to-do-list</h1>
+        <form action="{{ url_for('add_todo') }}" method="POST" class="todo-form">
+            <input type="text" name="task" placeholder="Task" required>
+            <input type="text" name="description" placeholder="Description" required>
+            <select name="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit">Add</button>
+        </form>
+        <ul class="todo-list">
+            {% for todo in todos %}
+                <li class="todo-item {% if todo.is_done %}done{% endif %}">
+                    <span class="task">{{ todo.task }}</span>
+                    <span class="description">{{ todo.description }}</span>
+                    <span class="priority">{{ todo.priority }}</span>
+                    <span class="date">
+                        {% if todo.date_created %}
+                            {{ todo.date_created.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            No Date
+                        {% endif %}
+                    </span>
+                    <form action="{{ url_for('update_priority', id=todo._id) }}" method="POST" class="priority-form">
+                        <select name="priority" onchange="this.form.submit()">
+                            <option value="low" {% if todo.priority == 'low' %}selected{% endif %}>Low</option>
+                            <option value="medium" {% if todo.priority == 'medium' %}selected{% endif %}>Medium</option>
+                            <option value="high" {% if todo.priority == 'high' %}selected{% endif %}>High</option>
+                        </select>
+                    </form>
+                    <a href="{{ url_for('mark_done', id=todo._id) }}" class="done-btn">Mark as Done</a>
+                    <a href="{{ url_for('delete', id=todo._id) }}" class="delete-btn">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>

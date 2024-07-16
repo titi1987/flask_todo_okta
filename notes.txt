@@ -1,0 +1,35 @@
+# Flask TODO App with MongoDB and Okta Authentication
+
+## Setup
+1. Install dependencies:
+    ```sh
+    pip install Flask pymongo Flask-PyMongo flask-cors okta
+    pip install Flask pymongo Flask-PyMongo flask-cors authlib
+
+    ```
+
+2. Configure MongoDB:
+    Ensure MongoDB is installed and running on `mongodb://localhost:27017/todoDB`.
+
+3. Configure Okta:
+    - Sign up for a free Okta developer account at [developer.okta.com](https://developer.okta.com/).
+    - Create a new application in your Okta dashboard with settings for a Web application.
+    - Set the login redirect URI to `http://localhost:5000/authorization-code/callback`.
+    - Update `app.py` with your Okta domain, client ID, and client secret.
+    Allowed Callback URLS : http://127.0.0.1:5000/authorize
+
+4. Run the app:
+    ```sh
+    python app.py
+    ```
+
+## Usage
+- Access the app at `http://localhost:5000`.
+- Login with Okta to manage your TODO tasks.
+
+## Project Structure
+- `app.py`: Main Flask application file.
+- `templates/`: Contains HTML templates.
+- `static/`: Contains CSS files.
+- `requirements.txt`: Python dependencies.
+- `README.md`: Project documentation.
